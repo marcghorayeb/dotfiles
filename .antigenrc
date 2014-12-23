@@ -1,0 +1,5 @@
+antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
+antigen theme romkatv/powerlevel10k
+
+antigen apply
