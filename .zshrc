@@ -56,6 +56,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+it2prof() {
+    echo -e "\033]50;SetProfile=$1\a"
+}
+
+dark() {
+    it2prof Dark
+}
+
+light() {
+    it2prof Light
+}
+
 # Host filtering
 
 FILTERED_HOSTS_URL=https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
@@ -73,6 +85,9 @@ dns-reset() {
 # Secrets
 
 setup-secrets() {
+    export CIRCLE_API_USER_TOKEN=
+    export CIRCLE_TOKEN=
+    export NPM_TOKEN=
     export VAULT_ADDR=
 
     export DOCKER_USERNAME=
@@ -87,7 +102,7 @@ setup-env() {
     export LASTNAME=ghorayeb
 
     export KUBE_CONFIG=~/.kube/config
-    export KUBE_NS=marcghorayeb # your username, do *not* use "default" on remote clusters)
+    export KUBE_NS=marc # your username, do *not* use "default" on remote clusters)
     export KUBE_DOCKER_SECRET=quay
 
     # Quay Docker Repo Configuration
@@ -102,6 +117,7 @@ kube-cluster-setup() {
     kubectl create ns $KUBE_NS
     kubectl config set-context --current --namespace=$KUBE_NS
 
+    kubectl delete secret $KUBE_DOCKER_SECRET
     kubectl create secret docker-registry $KUBE_DOCKER_SECRET \
         --docker-server=$DOCKER_REGISTRY \
         --docker-username=$DOCKER_USERNAME \
@@ -111,12 +127,10 @@ kube-cluster-setup() {
 
 vault-login() {
     setup-env
-
     vault login -method=userpass username=${FIRSTNAME}.${LASTNAME}
 }
 
 vault-get-kubeconfig() {
     setup-env
-
     vault kv get -field "data" -format yaml secret/kubernetes/kubeconfigs/${FIRSTNAME}.${LASTNAME} > $KUBE_CONFIG
 }
