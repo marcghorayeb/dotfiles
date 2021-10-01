@@ -1,10 +1,31 @@
+[core]
+	excludesfile = ~/.gitignore_global
+
 [user]
-	email =
+	email = contact@marcghorayeb.com
 	name = Marc Ghorayeb
 	signingkey =
 
+[includeIf "gitdir:~/Projects/Work"]
+	path = .gitconfig-work
+
+[commit]
+	# gpgsign = true
+
+[tag]
+	# gpgsign = true
+
+[fetch]
+	prune = true
+
 [push]
 	default = simple
+
+[pull]
+	ff = only
+
+[color]
+	ui = auto
 
 [alias]
 	st = status
@@ -21,15 +42,3 @@
 
 	# Show files ignored by git:
 	ign = ls-files -o -i --exclude-standard
-
-[color]
-	ui = auto
-
-[core]
-	excludesfile = ~/.gitignore_global
-
-[commit]
-	gpgsign = true
-
-[tag]
-	gpgsign = true

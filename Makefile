@@ -1,4 +1,4 @@
-BREW_DEPS?=antigen k9s openjdk sbt vault fzf kubectx skaffold yq jq kustomize
+BREW_DEPS?=antigen fzf yq jq
 
 ANTIGEN_CONFIG_PATH=~/.antigenrc
 ANTIGEN_CONFIG_BACKUP_PATH=$(ANTIGEN_CONFIG_PATH)_$(shell date "+%Y-%m-%d_%H-%M-%S").bak

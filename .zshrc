@@ -22,13 +22,18 @@ fi
 zmodload -i zsh/complist
 
 # Antigen bundles
-source /usr/local/share/antigen/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 antigen init ~/.antigenrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Enable fzf (history fuzzy finder Ctrl+R)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Enable SSH keys from GPG
+SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent
 
 # Terminal history options
 HISTSIZE=100000
@@ -82,55 +87,62 @@ dns-reset() {
     sudo killall -HUP mDNSResponder
 }
 
-# Secrets
-
 setup-secrets() {
-    export CIRCLE_API_USER_TOKEN=
-    export CIRCLE_TOKEN=
-    export NPM_TOKEN=
-    export VAULT_ADDR=
+    # export NPM_TOKEN=
+    # export VAULT_ADDR=
 
-    export DOCKER_USERNAME=
-    export DOCKER_PASSWORD=
-    export DOCKER_EMAIL=
+    # export DOCKER_USERNAME=
+    # export DOCKER_PASSWORD=
+    # export DOCKER_EMAIL=
 }
 
 # Work alias
+# -o UserKnownHostsFile=/Users/marcghorayeb/Library/Containers/com.sequel-ace.sequel-ace/Data/.keys/ssh_known_hosts_strict \
+alias db-proxy="ssh \
+    -v \
+    -N \
+    -S none \
+    -o ControlMaster=no \
+    -o ExitOnForwardFailure=yes \
+    -o ConnectTimeout=10 \
+    -o NumberOfPasswordPrompts=3 \
+    -o TCPKeepAlive=no \
+    -o ServerAliveInterval=60 \
+    -o ServerAliveCountMax=1 \
+    ec2-user@devweb.vpng.io \
+    -L 3306:internal.host:3306"
 
 setup-env() {
-    export FIRSTNAME=marc
-    export LASTNAME=ghorayeb
+    # export FIRSTNAME=marc
+    # export LASTNAME=ghorayeb
 
-    export KUBE_CONFIG=~/.kube/config
-    export KUBE_NS=marc # your username, do *not* use "default" on remote clusters)
-    export KUBE_DOCKER_SECRET=quay
-
-    # Quay Docker Repo Configuration
-    export DOCKER_REGISTRY=quay.io
+    # export KUBE_CONFIG=~/.kube/config
+    # export KUBE_NS=marc # your username, do *not* use "default" on remote clusters)
+    # export KUBE_DOCKER_SECRET=quay
 
     setup-secrets
 }
 
-kube-cluster-setup() {
-    setup-env
+# kube-cluster-setup() {
+#     setup-env
 
-    kubectl create ns $KUBE_NS
-    kubectl config set-context --current --namespace=$KUBE_NS
+#     kubectl create ns $KUBE_NS
+#     kubectl config set-context --current --namespace=$KUBE_NS
 
-    kubectl delete secret $KUBE_DOCKER_SECRET
-    kubectl create secret docker-registry $KUBE_DOCKER_SECRET \
-        --docker-server=$DOCKER_REGISTRY \
-        --docker-username=$DOCKER_USERNAME \
-        --docker-password=$DOCKER_PASSWORD \
-        --docker-email=$DOCKER_EMAIL
-}
+#     kubectl delete secret $KUBE_DOCKER_SECRET
+#     kubectl create secret docker-registry $KUBE_DOCKER_SECRET \
+#         --docker-server=$DOCKER_REGISTRY \
+#         --docker-username=$DOCKER_USERNAME \
+#         --docker-password=$DOCKER_PASSWORD \
+#         --docker-email=$DOCKER_EMAIL
+# }
 
-vault-login() {
-    setup-env
-    vault login -method=userpass username=${FIRSTNAME}.${LASTNAME}
-}
+# vault-login() {
+#     setup-env
+#     vault login -method=userpass username=${FIRSTNAME}.${LASTNAME}
+# }
 
-vault-get-kubeconfig() {
-    setup-env
-    vault kv get -field "data" -format yaml secret/kubernetes/kubeconfigs/${FIRSTNAME}.${LASTNAME} > $KUBE_CONFIG
-}
+# vault-get-kubeconfig() {
+#     setup-env
+#     vault kv get -field "data" -format yaml secret/kubernetes/kubeconfigs/${FIRSTNAME}.${LASTNAME} > $KUBE_CONFIG
+# }
