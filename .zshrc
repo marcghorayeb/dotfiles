@@ -22,14 +22,14 @@ fi
 zmodload -i zsh/complist
 
 # Antigen bundles
-source /opt/homebrew/share/antigen/antigen.zsh
+source /usr/local/share/antigen/antigen.zsh # this line comes from the brew installation log
 antigen init ~/.antigenrc
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Enable fzf (history fuzzy finder Ctrl+R)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # Enable SSH keys from GPG
 SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
