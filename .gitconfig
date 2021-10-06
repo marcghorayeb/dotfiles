@@ -4,16 +4,16 @@
 [user]
 	email = contact@marcghorayeb.com
 	name = Marc Ghorayeb
-	signingkey =
+	signingkey = A65395FB85D10C87
 
 [includeIf "gitdir:~/Projects/Work"]
 	path = .gitconfig-work
 
 [commit]
-	# gpgsign = true
+	gpgsign = true
 
 [tag]
-	# gpgsign = true
+	gpgsign = true
 
 [fetch]
 	prune = true
