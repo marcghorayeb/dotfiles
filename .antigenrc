@@ -1,5 +1,8 @@
-antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle Aloxaf/fzf-tab
+antigen bundle mroth/evalcache
+antigen bundle zdharma-continuum/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
+
 antigen theme romkatv/powerlevel10k
 
 antigen apply

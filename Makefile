@@ -34,6 +34,7 @@ antigen-ln:
 zsh-ln:
 	[[ -f $(ZSH_CONFIG_PATH) ]] && mv $(ZSH_CONFIG_PATH) $(ZSH_CONFIG_BACKUP_PATH) || true
 	ln -s $(shell pwd)/.zshrc $(ZSH_CONFIG_PATH)
+	ln -s $(shell pwd)/autoload ~/.zsh_autoload
 
 git-ln:
 	[[ -f $(GIT_CONFIG_PATH) ]] && mv $(GIT_CONFIG_PATH) $(GIT_CONFIG_BACKUP_PATH) || true

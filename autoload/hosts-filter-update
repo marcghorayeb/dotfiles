@@ -1,0 +1,1 @@
+sudo curl ${FILTERED_HOSTS_URL:-https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts} -o ${HOSTS_OUT:-/etc/hosts} && dns-reset
