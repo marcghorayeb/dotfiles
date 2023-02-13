@@ -76,3 +76,6 @@ alias aws-staging="aws --profile=staging"
 alias aws-prod="aws --profile=production"
 
 # alias prof-zsh-startup="for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done"
+
+export PNPM_HOME="/Users/marcghorayeb/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
